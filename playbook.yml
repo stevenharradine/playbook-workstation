@@ -1,0 +1,40 @@
+---
+- connection: local
+  hosts: localhost
+  sudo: true
+  remote_user: douglas
+#  vars_files:
+#    - vault.yml
+  vars:
+    project: workstation004
+    email: stevenharradine@gmail.com
+    name: Steven Harradine
+  roles:
+    - role: stevenharradine.hostname
+  tasks:
+    - name: install | apt
+      apt:
+        name: "{{ item }}"
+        update_cache: yes
+      with_items:
+        - htop
+        - python-pip
+    - name: install | apt
+      apt:
+        name: "{{ item }}"
+        update_cache: yes
+      with_items:
+        - git
+      notify:
+        - "git | configure | name"
+        - "git | configure | email"
+    - name: install | pip
+      pip:
+        name: "{{ item }}"
+      with_items:
+        - ansible
+  handlers:
+    - name: git | configure | email
+      shell: "git config --global user.email '{{ email }}'"
+    - name: git | configure | name
+      shell: "git config --global user.name '{{ name }}'"
