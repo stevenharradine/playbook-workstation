@@ -1,0 +1,10 @@
+Host *
+   ServerAliveInterval 60
+
+Host 192.168.1.* *.teluswebteam.com
+   ForwardAgent yes
+
+Host *.teluswebteam.com
+  StrictHostKeyChecking no
+  User t864007
+
